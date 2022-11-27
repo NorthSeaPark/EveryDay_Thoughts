@@ -6,6 +6,8 @@
 //     response.end();
 // }).listen(8888);
 
+// const { route } = require("./router");
+
 // 我们创建了服务器，并且向创建它的方法传递了一个函数。
 // 无论何时我们的服务器收到一个请求，这个函数就会被调用。
 
@@ -50,17 +52,23 @@
 //                         querystring(string)["hello"]
 
 
-function start(){
-    function onRequest(request, response){
-        var pathname = url.parse(request.url).pathname;
-        console.log("Request for " + pathname + " received.");
-        response.writeHead(200, {"Content-Type": "text/plain"});
-        response.write("We'll die in the class we born");
-        response.end();
-    }
-    http.createServer(onRequest).listen(8888);
-    console.log("Server has started.");
+var http = require("http");
+var url = require("url");
+
+function start(route) {
+  function onRequest(request, response) {
+    var pathname = url.parse(request.url).pathname;
+    console.log("Request for " + pathname + " received.");
+
+    route(pathname);
+
+    response.writeHead(200, {"Content-Type": "text/plain"});
+    response.write("You cannot forget love and pride");
+    response.end();
+  }
+
+  http.createServer(onRequest).listen(8888);
+  console.log("Server has started.");
 }
 
 exports.start = start;
-
